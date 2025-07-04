@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AIMLESS</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+  <script type="module">
+    import { pipeline } from 'https://cdn.jsdelivr.net/npm/@xenova/transformers@2.5.1';
+
+    window.loadModel = async () => {
+      document.getElementById("loading").style.display = "block";
+      window.generator = await pipeline('text-generation', 'Xenova/gpt2');
+      document.getElementById("loading").style.display = "none";
+    };
+  </script>
+</head>
+<body class="bg-gray-100 text-gray-800" onload="loadModel()">
+  <div class="max-w-3xl mx-auto p-6">
+    <h1 class="text-4xl font-bold mb-4 text-center">🤖 AIMLESS</h1>
+
+    <div class="flex justify-center gap-4 mb-6">
+      <button class="mode-btn active" onclick="setMode('study', this)">📚 Estudio</button>
+      <button class="mode-btn" onclick="setMode('code', this)">💻 Programación</button>
+      <button class="mode-btn" onclick="setMode('fun', this)">🎭 Roleplay</button>
+    </div>
+
+    <div id="modeLabel" class="text-center text-sm text-gray-500 mb-2">Modo: Estudio</div>
+    <div id="loading" class="text-center text-gray-500 mb-4 hidden">⏳ Cargando modelo de IA en el navegador...</div>
+
+    <div id="chat" class="bg-white rounded shadow p-4 h-96 overflow-y-auto mb-4 text-sm"></div>
+
+    <form id="chatForm" class="flex gap-2">
+      <input id="userInput" type="text" placeholder="Escribe tu mensaje..." class="flex-1 p-2 border rounded" required />
+      <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Enviar</button>
+    </form>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
