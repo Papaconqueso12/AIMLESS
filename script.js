@@ -46,7 +46,7 @@ async function getAIResponse(userMessage) {
   const prompt = `${prompts[mode]}\nUsuario: ${userMessage}\nAIMLESS:`;
 
   try {
-    const response = await fetch("https://yuntian-deng-chatgpt.hf.space/run/predict", {
+    const response = await fetch("https://mys-llama2-chat.hf.space/run/predict", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ data: [prompt] })
