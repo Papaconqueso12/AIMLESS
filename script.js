@@ -47,17 +47,22 @@ function appendMessage(sender, text) {
 async function getAIResponse(userMessage) {
   const prompt = `${prompts[mode]}\n${conversationHistory.join('\n')}\nUsuario: ${userMessage}\nAIMLESS:`;
 
-  const response = await fetch("https://mys-llama2-chat.hf.space/run/predict", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ data: [prompt] })
-  });
+  try {
+    const response = await fetch("https://mys-llama2-chat.hf.space/run/predict", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ data: [prompt] })
+    });
 
-  const data = await response.json();
-  const reply = data.data[0].trim();
+    const data = await response.json();
+    const reply = data.data[0].trim();
 
-  conversationHistory.push(`Usuario: ${userMessage}`);
-  conversationHistory.push(`AIMLESS: ${reply}`);
+    conversationHistory.push(`Usuario: ${userMessage}`);
+    conversationHistory.push(`AIMLESS: ${reply}`);
 
-  return reply;
+    return reply;
+  } catch (error) {
+    console.error("Error al obtener respuesta:", error);
+    return "⚠️ Hubo un problema al conectar con la IA. Intenta de nuevo más tarde.";
+  }
 }
